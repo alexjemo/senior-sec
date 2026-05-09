@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Seniors App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#002C98',
+              'primary-light': '#1A43BF',
+              'primary-dark': '#1E3A8A',
+              secondary: '#FFBF00',
+              'on-secondary': '#6D5000',
+              background: '#F8F9FA',
+              card: '#FFFFFF',
+              'inactive-bg': '#E1E3E4',
+              'inactive-card': '#F3F4F5',
+              'text-dark': '#191C1D',
+              'text-blue': '#001453',
+              'text-muted': '#444654',
+            },
+            fontFamily: {
+              sans: ['Lexend', 'sans-serif'],
+            },
+          }
+        }
+      }
+    </script>
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          @apply bg-background text-text-dark font-sans select-none;
+          -webkit-tap-highlight-color: transparent;
+        }
+      }
+      @layer utilities {
+        .shake {
+          animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+      }
+      @keyframes shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+        40%, 60% { transform: translate3d(4px, 0, 0); }
+      }
+      .active-scale:active {
+        transform: scale(0.98);
+        transition: transform 0.05s ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="bg-background text-text-dark font-sans select-none overflow-hidden max-w-md mx-auto relative h-screen w-screen shadow-2xl">
+    
+    <!-- Global Dropdown Menu -->
+    <div id="global-menu-backdrop" class="hidden absolute inset-0 z-40 bg-black/5"></div>
+    <div id="global-menu" class="hidden absolute top-24 right-6 bg-white rounded-3xl shadow-2xl z-50 flex flex-col w-56 border border-gray-100 overflow-hidden transform origin-top-right transition-transform">
+      <button id="menu-btn-security" class="active-scale flex items-center gap-4 px-6 py-5 text-xl font-bold text-primary border-b border-gray-100">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+        Security
+      </button>
+      <button id="menu-btn-lights" class="active-scale flex items-center gap-4 px-6 py-5 text-xl font-bold text-slate-500">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+        Lights
+      </button>
+    </div>
+
+    <!-- Screen 1: Home / Lock Status -->
+    <div id="screen-home" class="absolute inset-0 flex flex-col bg-background z-10 transition-transform duration-300">
+      
+      <!-- Top App Bar -->
+      <div class="flex items-center justify-between px-6 py-8">
+        <img src="./src/assets/logo.svg" alt="Home Security" class="h-8" />
+        <!-- Settings/Menu Icon -->
+        <button class="btn-top-menu active-scale w-12 h-12 bg-inactive-card rounded-full flex items-center justify-center">
+          <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+      </div>
+
+      <div class="flex flex-col flex-1 px-6 pt-4 pb-32 overflow-y-auto">
+        <!-- Hero Status -->
+        <div class="mb-12">
+          <h2 class="text-[56px] leading-[1.1] font-extrabold text-primary mb-6" id="hero-status-title">Your Home<br/>is Secure</h2>
+          <div class="inline-flex items-center gap-4 px-6 py-3 bg-[#DDE1FF] rounded-full">
+            <svg class="w-5 h-5 text-[#001453]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            <span class="text-xl font-bold text-[#001453]" id="hero-status-subtitle">All systems active</span>
+          </div>
+        </div>
+
+        <!-- Status Card -->
+        <div class="bg-card rounded-[40px] p-10 flex flex-col items-center justify-center mb-8 shadow-sm border border-gray-100">
+          <div class="w-48 h-48 bg-inactive-card rounded-full flex items-center justify-center mb-8" id="door-icon-container">
+            <!-- Lock Icon -->
+            <svg id="door-icon" class="w-24 h-24 text-text-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          </div>
+          <h3 class="text-4xl font-bold text-center mb-4" id="door-status-text">Your door is<br/>locked</h3>
+          <p class="text-xl text-text-muted text-center">Front Entrance</p>
+        </div>
+
+        <!-- Primary Action -->
+        <button id="btn-unlock-flow" class="active-scale w-full min-h-[120px] bg-gradient-to-r from-[#795900] to-secondary rounded-[32px] flex items-center justify-center gap-6 shadow-xl">
+          <svg class="w-10 h-10 text-on-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
+          <span class="text-[30px] font-extrabold text-on-secondary">Tap to Unlock</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Screen 1.5: PIN Overlay -->
+    <div id="screen-pin" class="absolute inset-0 flex flex-col bg-background z-30 transition-transform duration-300 translate-y-full">
+      <div class="flex flex-col items-center justify-between h-full px-6 py-12">
+        
+        <!-- Header -->
+        <div class="flex flex-col items-center mb-8 relative w-full">
+          <!-- Back Button -->
+          <button id="btn-pin-back" class="active-scale absolute left-0 top-0 p-2 text-primary">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
+          </button>
+          <img src="./src/assets/logo.svg" alt="Home Security" class="h-10 mb-2" />
+          <p class="text-[18px] text-text-muted">Enter Access Code</p>
+        </div>
+
+        <!-- PIN Dots -->
+        <div class="flex gap-6 justify-center mb-12" id="pin-dots">
+          <div class="w-10 h-10 rounded-full bg-inactive-bg transition-colors duration-200"></div>
+          <div class="w-10 h-10 rounded-full bg-inactive-bg transition-colors duration-200"></div>
+          <div class="w-10 h-10 rounded-full bg-inactive-bg transition-colors duration-200"></div>
+          <div class="w-10 h-10 rounded-full bg-inactive-bg transition-colors duration-200"></div>
+        </div>
+
+        <!-- Numpad -->
+        <div class="grid grid-cols-3 gap-6 mb-auto mx-auto" id="numpad">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Emergency Footer -->
+        <button id="btn-emergency" class="active-scale w-full h-[80px] bg-primary rounded-xl flex items-center justify-center gap-4 mt-8 shadow-xl">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          <span class="text-[24px] text-white">EMERGENCY</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Screen 2: Lights Section -->
+    <div id="screen-lights" class="absolute inset-0 flex flex-col bg-card z-10 transition-transform duration-300 translate-x-full">
+      
+      <!-- Top App Bar -->
+      <div class="flex items-center justify-between px-6 py-8">
+        <img src="./src/assets/logo.svg" alt="Home Security" class="h-8" />
+        <button class="btn-top-menu active-scale w-12 h-12 bg-inactive-card rounded-full flex items-center justify-center">
+           <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+      </div>
+
+      <div class="flex flex-col flex-1 px-6 pb-32 overflow-y-auto">
+        
+        <div class="mb-10">
+          <h2 class="text-[56px] leading-[1.1] font-extrabold text-primary mb-4">Smart<br/>Lights</h2>
+          <p class="text-xl text-text-muted">Manage your home's atmosphere with clarity.</p>
+        </div>
+
+        <!-- Light Cards Grid -->
+        <div class="flex flex-col gap-8 mb-12" id="lights-container">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Master Actions -->
+        <div class="flex flex-col gap-6 mb-12">
+          <button id="btn-lights-on" class="active-scale w-full h-[96px] bg-gradient-to-r from-primary to-primary-light rounded-3xl flex items-center justify-center gap-4 shadow-xl">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <span class="text-[24px] text-white">Turn All On</span>
+          </button>
+          <button id="btn-lights-off" class="active-scale w-full h-[96px] bg-inactive-card border-2 border-primary/10 rounded-3xl flex items-center justify-center gap-4">
+             <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-12.728 12.728M12 2v2m0 16v2m8-10h2M2 12h2m15.364 7.071l-1.414-1.414M5.636 5.636L4.222 4.222m12.728 0l-1.414 1.414M5.636 18.364l-1.414 1.414"></path></svg>
+            <span class="text-[24px] text-primary">Turn All Off</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bottom Nav Bar -->
+    <div class="absolute bottom-0 left-0 right-0 h-[112px] bg-white rounded-t-[32px] drop-shadow-[0px_-8px_15px_rgba(0,0,0,0.08)] z-20 flex justify-around items-center px-4">
+      <button id="nav-security" class="active-scale flex items-center justify-center gap-3 px-8 py-4 bg-blue-100 rounded-full transition-colors">
+        <svg class="w-6 h-6 text-primary" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+        <span class="text-[18px] font-bold text-primary">Security</span>
+      </button>
+      <button id="nav-lights" class="active-scale flex items-center justify-center gap-3 px-8 py-4 bg-transparent rounded-full transition-colors">
+        <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+        <span class="text-[18px] font-bold text-slate-500">Lights</span>
+      </button>
+    </div>
+
+    <script>
+      // Configuration and State
+      const isSupabaseConfigured = false; // Set to true when integrating real Supabase
+      const MASTER_PIN = '0000'
+      let currentPinInput = ''
+      let doorLocked = true
+
+      // Initial Mock State for Lights
+      let homeState = {
+        door_locked: true,
+        light_living_room: true,
+        light_kitchen: false,
+        light_bedroom: false,
+        light_bathroom: false
+      }
+
+      // DOM Elements
+      const screenHome = document.getElementById('screen-home')
+      const screenPin = document.getElementById('screen-pin')
+      const screenLights = document.getElementById('screen-lights')
+
+      const globalMenu = document.getElementById('global-menu')
+      const globalMenuBackdrop = document.getElementById('global-menu-backdrop')
+      const menuBtnSecurity = document.getElementById('menu-btn-security')
+      const menuBtnLights = document.getElementById('menu-btn-lights')
+      const topMenuBtns = document.querySelectorAll('.btn-top-menu')
+
+      const navSecurity = document.getElementById('nav-security')
+      const navLights = document.getElementById('nav-lights')
+
+      const btnUnlockFlow = document.getElementById('btn-unlock-flow')
+      const btnPinBack = document.getElementById('btn-pin-back')
+      const pinDots = document.getElementById('pin-dots').children
+      const numpad = document.getElementById('numpad')
+      const btnEmergency = document.getElementById('btn-emergency')
+
+      const doorStatusText = document.getElementById('door-status-text')
+      const heroStatusTitle = document.getElementById('hero-status-title')
+      const doorIcon = document.getElementById('door-icon')
+      const doorIconContainer = document.getElementById('door-icon-container')
+
+      const lightsContainer = document.getElementById('lights-container')
+      const btnLightsOn = document.getElementById('btn-lights-on')
+      const btnLightsOff = document.getElementById('btn-lights-off')
+
+      // Navigation Logic
+      function switchTab(tab) {
+        if (tab === 'security') {
+          screenHome.classList.remove('-translate-x-full')
+          screenLights.classList.add('translate-x-full')
+          
+          navSecurity.classList.replace('bg-transparent', 'bg-blue-100')
+          navSecurity.querySelector('svg').classList.replace('text-slate-500', 'text-primary')
+          navSecurity.querySelector('span').classList.replace('text-slate-500', 'text-primary')
+          
+          navLights.classList.replace('bg-blue-100', 'bg-transparent')
+          navLights.querySelector('svg').classList.replace('text-primary', 'text-slate-500')
+          navLights.querySelector('span').classList.replace('text-primary', 'text-slate-500')
+        } else {
+          screenHome.classList.add('-translate-x-full')
+          screenLights.classList.remove('translate-x-full')
+          
+          navLights.classList.replace('bg-transparent', 'bg-blue-100')
+          navLights.querySelector('svg').classList.replace('text-slate-500', 'text-primary')
+          navLights.querySelector('span').classList.replace('text-slate-500', 'text-primary')
+          
+          navSecurity.classList.replace('bg-blue-100', 'bg-transparent')
+          navSecurity.querySelector('svg').classList.replace('text-primary', 'text-slate-500')
+          navSecurity.querySelector('span').classList.replace('text-primary', 'text-slate-500')
+        }
+      }
+
+      navSecurity.addEventListener('click', () => switchTab('security'))
+      navLights.addEventListener('click', () => switchTab('lights'))
+
+      // Top Menu Logic
+      function toggleMenu() {
+        globalMenu.classList.toggle('hidden')
+        globalMenuBackdrop.classList.toggle('hidden')
+      }
+
+      topMenuBtns.forEach(btn => btn.addEventListener('click', toggleMenu))
+      globalMenuBackdrop.addEventListener('click', toggleMenu)
+
+      menuBtnSecurity.addEventListener('click', () => {
+        toggleMenu()
+        switchTab('security')
+      })
+      menuBtnLights.addEventListener('click', () => {
+        toggleMenu()
+        switchTab('lights')
+      })
+
+      // PIN Pad Logic
+      function openPinPad() {
+        screenPin.classList.remove('translate-y-full')
+        currentPinInput = ''
+        updatePinDots()
+      }
+
+      function closePinPad() {
+        screenPin.classList.add('translate-y-full')
+      }
+
+      btnUnlockFlow.addEventListener('click', openPinPad)
+      btnPinBack.addEventListener('click', closePinPad)
+
+      function handlePinInput(num) {
+        if (currentPinInput.length < 4) {
+          currentPinInput += num
+          updatePinDots()
+          
+          if (currentPinInput.length === 4) {
+            setTimeout(verifyPin, 100)
+          }
+        }
+      }
+
+      function updatePinDots() {
+        Array.from(pinDots).forEach((dot, index) => {
+          if (index < currentPinInput.length) {
+            dot.classList.replace('bg-inactive-bg', 'bg-primary')
+          } else {
+            dot.classList.replace('bg-primary', 'bg-inactive-bg')
+          }
+        })
+      }
+
+      async function verifyPin() {
+        let isValid = false;
+        if (!isSupabaseConfigured) {
+          isValid = currentPinInput === MASTER_PIN;
+        } else {
+          try {
+            isValid = currentPinInput === MASTER_PIN;
+          } catch (e) {
+            isValid = false;
+          }
+        }
+
+        if (isValid) {
+          unlockDoor()
+          closePinPad()
+        } else {
+          const dotsContainer = document.getElementById('pin-dots')
+          dotsContainer.classList.add('shake')
+          if (navigator.vibrate) navigator.vibrate(200)
+          
+          setTimeout(() => {
+            dotsContainer.classList.remove('shake')
+            currentPinInput = ''
+            updatePinDots()
+          }, 500)
+        }
+      }
+
+      // Generate Numpad
+      const keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, '', 0, 'X']
+      keys.forEach(key => {
+        if (key === '') {
+          numpad.appendChild(document.createElement('div'))
+          return
+        }
+        
+        const btn = document.createElement('button')
+        btn.className = 'active-scale w-[110px] h-[110px] rounded-full flex items-center justify-center font-normal text-[40px] shadow-lg transition-transform'
+        
+        if (key === 'X') {
+          btn.classList.add('bg-[#E7E8E9]', 'text-text-muted')
+          btn.innerHTML = `<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414 6.414a2 2 0 001.414.586H19a2 2 0 002-2V7a2 2 0 00-2-2h-8.172a2 2 0 00-1.414.586L3 12z"></path></svg>`
+          btn.onclick = () => {
+            currentPinInput = currentPinInput.slice(0, -1)
+            updatePinDots()
+          }
+        } else {
+          btn.classList.add('bg-secondary', 'text-on-secondary')
+          btn.textContent = key
+          btn.onclick = () => handlePinInput(key)
+        }
+        numpad.appendChild(btn)
+      })
+
+      // Door Logic
+      function unlockDoor() {
+        doorLocked = false
+        updateDoorUI()
+        
+        setTimeout(() => {
+          doorLocked = true
+          updateDoorUI()
+        }, 5000)
+      }
+
+      function updateDoorUI() {
+        if (doorLocked) {
+          doorStatusText.innerHTML = 'Your door is<br/>locked'
+          doorIconContainer.classList.replace('bg-green-100', 'bg-inactive-card')
+          doorIcon.classList.replace('text-green-600', 'text-text-dark')
+          doorIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>`
+          btnUnlockFlow.style.display = 'flex'
+          heroStatusTitle.innerHTML = 'Your Home<br/>is Secure'
+          heroStatusTitle.classList.replace('text-green-600', 'text-primary')
+        } else {
+          doorStatusText.innerHTML = 'Your door is<br/>UNLOCKED'
+          doorIconContainer.classList.replace('bg-inactive-card', 'bg-green-100')
+          doorIcon.classList.replace('text-text-dark', 'text-green-600')
+          doorIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>`
+          btnUnlockFlow.style.display = 'none'
+          heroStatusTitle.innerHTML = 'Door is<br/>OPEN'
+          heroStatusTitle.classList.replace('text-primary', 'text-green-600')
+        }
+      }
+
+      // Emergency Logic
+      btnEmergency.addEventListener('click', async () => {
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100])
+        
+        if (isSupabaseConfigured) {
+          await supabase.from('emergency_calls').insert([{ timestamp: new Date() }])
+        } else {
+          console.log("MOCK: Emergency call recorded.")
+        }
+        alert("Emergency services have been contacted.")
+      })
+
+      // --- Lights Logic ---
+      const lights = [
+        { id: 'light_living_room', name: 'Living Room' },
+        { id: 'light_kitchen', name: 'Kitchen' },
+        { id: 'light_bedroom', name: 'Bedroom' },
+        { id: 'light_bathroom', name: 'Bathroom' }
+      ]
+
+      function renderLights() {
+        lightsContainer.innerHTML = ''
+        lights.forEach(light => {
+          const isOn = homeState[light.id]
+          
+          const card = document.createElement('div')
+          card.className = `active-scale flex flex-col justify-between p-8 min-h-[220px] rounded-[40px] cursor-pointer transition-colors ${isOn ? 'bg-secondary' : 'bg-inactive-bg'}`
+          card.onclick = () => toggleLight(light.id)
+          
+          const iconColor = isOn ? 'text-on-secondary' : 'text-slate-500'
+          const statusText = isOn ? 'On • 80% Brightness' : 'Off'
+          const textColor = isOn ? 'text-on-secondary' : 'text-text-dark'
+          const subTextColor = isOn ? 'text-[rgba(109,80,0,0.8)]' : 'text-text-muted'
+          
+          const toggleSwitch = `
+            <div class="w-24 h-12 rounded-full flex items-center p-1 transition-colors ${isOn ? 'bg-[rgba(109,80,0,0.2)] justify-end' : 'bg-[rgba(116,118,133,0.2)] justify-start'}">
+              <div class="w-10 h-10 bg-white rounded-full shadow-md"></div>
+            </div>
+          `
+          
+          card.innerHTML = `
+            <div class="flex justify-between items-start w-full">
+              <div class="w-16 h-16 flex items-center justify-center">
+                 <svg class="w-10 h-10 ${iconColor}" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4z"></path></svg>
+              </div>
+              ${toggleSwitch}
+            </div>
+            <div class="w-full">
+              <h3 class="text-[30px] ${textColor} mb-1">${light.name}</h3>
+              <p class="text-[18px] ${subTextColor}">${statusText}</p>
+            </div>
+          `
+          lightsContainer.appendChild(card)
+        })
+      }
+
+      async function toggleLight(id) {
+        homeState[id] = !homeState[id]
+        renderLights()
+        
+        if (isSupabaseConfigured) {
+          const { error } = await supabase.from('seniors_home_state').update({ [id]: homeState[id] }).eq('id', 1)
+          if (error) {
+            console.error("Failed to update light state:", error)
+            homeState[id] = !homeState[id]
+            renderLights()
+          }
+        }
+      }
+
+      async function setAllLights(state) {
+        lights.forEach(l => homeState[l.id] = state)
+        renderLights()
+        
+        if (isSupabaseConfigured) {
+          const updateObj = {}
+          lights.forEach(l => updateObj[l.id] = state)
+          await supabase.from('seniors_home_state').update(updateObj).eq('id', 1)
+        }
+      }
+
+      btnLightsOn.addEventListener('click', () => setAllLights(true))
+      btnLightsOff.addEventListener('click', () => setAllLights(false))
+
+      // Initialization
+      function init() {
+        updateDoorUI()
+        renderLights()
+        
+        if (isSupabaseConfigured) {
+          supabase
+            .channel('home_state_changes')
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'seniors_home_state' }, payload => {
+              homeState = { ...homeState, ...payload.new }
+              renderLights()
+            })
+            .subscribe()
+        }
+      }
+
+      init()
+    </script>
+</html>
