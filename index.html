@@ -38,6 +38,7 @@
         body {
           @apply bg-background text-text-dark font-sans select-none;
           -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
         }
       }
       @layer utilities {
@@ -57,7 +58,7 @@
       }
     </style>
   </head>
-  <body class="bg-background text-text-dark font-sans select-none overflow-hidden max-w-md mx-auto relative h-screen w-screen shadow-2xl">
+  <body class="bg-background text-text-dark font-sans select-none overflow-hidden max-w-md mx-auto relative h-[100dvh] w-full shadow-2xl">
     
     <!-- Global Dropdown Menu -->
     <div id="global-menu-backdrop" class="hidden absolute inset-0 z-40 bg-black/5"></div>
@@ -115,10 +116,10 @@
 
     <!-- Screen 1.5: PIN Overlay -->
     <div id="screen-pin" class="absolute inset-0 flex flex-col bg-background z-30 transition-transform duration-300 translate-y-full">
-      <div class="flex flex-col items-center justify-between h-full px-6 py-12">
+      <div class="flex flex-col items-center h-full px-6 py-8 overflow-y-auto">
         
         <!-- Header -->
-        <div class="flex flex-col items-center mb-8 relative w-full">
+        <div class="flex flex-col items-center mb-6 relative w-full shrink-0">
           <!-- Back Button -->
           <button id="btn-pin-back" class="active-scale absolute left-0 top-0 p-2 text-primary">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path></svg>
@@ -128,7 +129,7 @@
         </div>
 
         <!-- PIN Dots -->
-        <div class="flex gap-6 justify-center mb-12" id="pin-dots">
+        <div class="flex gap-6 justify-center mb-6 shrink-0" id="pin-dots">
           <div class="w-10 h-10 rounded-full bg-inactive-bg transition-colors duration-200"></div>
           <div class="w-10 h-10 rounded-full bg-inactive-bg transition-colors duration-200"></div>
           <div class="w-10 h-10 rounded-full bg-inactive-bg transition-colors duration-200"></div>
@@ -136,12 +137,12 @@
         </div>
 
         <!-- Numpad -->
-        <div class="grid grid-cols-3 gap-6 mb-auto mx-auto" id="numpad">
+        <div class="grid grid-cols-3 gap-4 mb-4 mx-auto" id="numpad">
           <!-- Rendered via JS -->
         </div>
 
         <!-- Emergency Footer -->
-        <button id="btn-emergency" class="active-scale w-full h-[80px] bg-primary rounded-xl flex items-center justify-center gap-4 mt-8 shadow-xl">
+        <button id="btn-emergency" class="active-scale w-full min-h-[80px] mt-auto shrink-0 bg-primary rounded-xl flex items-center justify-center gap-4 shadow-xl">
           <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
           <span class="text-[24px] text-white">EMERGENCY</span>
         </button>
@@ -363,7 +364,7 @@
         }
         
         const btn = document.createElement('button')
-        btn.className = 'active-scale w-[110px] h-[110px] rounded-full flex items-center justify-center font-normal text-[40px] shadow-lg transition-transform'
+        btn.className = 'active-scale w-[90px] h-[90px] rounded-full flex items-center justify-center font-normal text-[36px] shadow-lg transition-transform'
         
         if (key === 'X') {
           btn.classList.add('bg-[#E7E8E9]', 'text-text-muted')
